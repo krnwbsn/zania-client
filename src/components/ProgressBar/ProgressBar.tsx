@@ -1,7 +1,7 @@
+import { type FC, type ReactElement, memo } from 'react';
 import { Box, Progress } from '@chakra-ui/react';
-import { memo } from 'react';
 
-const ProgressBar = () => (
+const ProgressBar: FC = (): ReactElement => (
   <Box
     pos="fixed"
     top={0}

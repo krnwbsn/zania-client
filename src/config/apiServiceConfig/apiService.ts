@@ -1,6 +1,9 @@
-import { AxiosRequestConfig, Method } from 'axios';
 import UrlPattern from 'url-pattern';
+import type { AxiosRequestConfig, Method } from 'axios';
+
 import { axiosInstance } from './apiServicesInstanceAndInterceptors';
+
+import { baseURL } from 'constants/url';
 
 interface ServiceConfigInstanceRequestInterface
   extends Pick<AxiosRequestConfig, 'data' | 'params'> {
@@ -28,7 +31,6 @@ const services = <
     data,
     params,
     urlParams,
-    servicePath = '',
     contentType = 'application/json',
     config,
   } = args;
@@ -37,16 +39,16 @@ const services = <
     'Content-Type': contentType,
   };
 
+  const url = `/v1/${urlValue}`;
+
   const configCall = {
     params,
     headers,
-    baseURL: servicePath, // Assuming the servicePath includes the base URL
+    baseURL,
     retry: 1,
     retryDelay: 1000,
     ...config,
   };
-
-  const url = `${servicePath}/${urlValue}`;
 
   const serviceMethod = {
     GET: () =>

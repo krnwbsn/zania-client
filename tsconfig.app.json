@@ -7,13 +7,15 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "src/*": ["./src/*"],
       "config/*": ["./src/config/*"],
       "context/*": ["./src/context/*"],
       "containers/*": ["./src/containers/*"],
       "routes/*": ["./src/routes/*"],
       "hooks/*": ["./src/hooks/*"],
-      "components/*": ["./src/components/*"]
+      "components/*": ["./src/components/*"],
+      "api/*": ["./src/api/*"],
+      "types/*": ["./src/types/*"],
+      "constants/*": ["./src/constants/*"]
     },
 
     /* Bundler mode */
