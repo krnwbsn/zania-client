@@ -2,11 +2,11 @@ import { type FC, type ReactElement, memo } from 'react';
 import { Box, Grid, GridItem, Image, VStack, Skeleton } from '@chakra-ui/react';
 
 import Layout from 'components/Layout';
-import Modal from 'components/Modal/Modal';
+import Modal from 'components/Modal';
+import { imagePlacehoderUrl } from 'constants/url';
 import useHomeAction from './Home.action';
 
 import type { TDataManagement } from 'types/data-management';
-import { imagePlacehoderUrl } from 'constants/url';
 
 const Home: FC = (): ReactElement => {
   const {
