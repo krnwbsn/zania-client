@@ -70,7 +70,10 @@ const useTaskManagement = () => {
 
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [taskData, setTaskData] = useState<Array<TTask>>(mockData);
+  const [originalTaskData, setOriginalTaskData] =
+    useState<Array<TTask>>(mockData);
   const [newTask, setNewTask] = useState<TTaskForm>(defaultState);
+  const [search, setSearch] = useState<string>('');
 
   const handleOpenModal = () => onOpen();
 
@@ -79,6 +82,7 @@ const useTaskManagement = () => {
   const handleDelete = (id: number) => {
     const newTaskData = taskData.filter((data) => data.id !== id);
     setTaskData(newTaskData);
+    setOriginalTaskData(newTaskData);
   };
 
   const handleChangeInput = (value: string, type: string) => {
@@ -89,16 +93,41 @@ const useTaskManagement = () => {
   };
 
   const handleNewTask = () => {
-    setTaskData([
+    const newTaskData = [
       ...taskData,
       { ...newTask, id: taskData.length + 1, status: 'pending' },
-    ]);
+    ];
+    setTaskData(newTaskData);
+    setOriginalTaskData(newTaskData);
     handleCloseModal();
   };
 
   const handleCancelNewTask = () => {
-    setNewTask(defaultState);
     handleCloseModal();
+  };
+
+  const handleComplete = (id: number) => {
+    const newTaskData = taskData.map((data) => {
+      if (data.id === id) {
+        return { ...data, status: 'completed' };
+      }
+      return { ...data };
+    });
+    setTaskData(newTaskData);
+    setOriginalTaskData(newTaskData);
+  };
+
+  const handleSearch = (value: string) => setSearch(value);
+
+  const handleClickSearch = () => {
+    const filteredTaskData = taskData.filter((data) =>
+      data.category.toLowerCase().includes(search.toLowerCase())
+    );
+    setTaskData(filteredTaskData);
+  };
+
+  const handleCancelSearch = () => {
+    setTaskData(originalTaskData);
   };
 
   return {
@@ -110,6 +139,10 @@ const useTaskManagement = () => {
     handleNewTask,
     handleChangeInput,
     handleCancelNewTask,
+    handleComplete,
+    handleSearch,
+    handleClickSearch,
+    handleCancelSearch,
   };
 };
 

@@ -24,39 +24,53 @@ const TaskManagement = () => {
     handleDelete,
     handleChangeInput,
     handleCancelNewTask,
+    handleComplete,
+    handleSearch,
+    handleClickSearch,
+    handleCancelSearch,
   } = useTaskManagement();
 
   return (
     <Layout>
       <HStack gap={4} my={4}>
         <Button onClick={handleOpenModal}>Add Task</Button>
-        <Input placeholder="Search by category" flex={1} />
-        <Button>Search</Button>
-        <Button>Cancel</Button>
+        <Input
+          placeholder="Search by category"
+          onChange={(e) => handleSearch(e.target.value)}
+          flex={1}
+        />
+        <Button onClick={handleClickSearch}>Search</Button>
+        <Button onClick={handleCancelSearch}>Cancel</Button>
       </HStack>
       <VStack align="stretch" gap={4}>
-        {taskData.map((data, i) => (
-          <HStack
-            key={i}
-            border="1px solid gray"
-            borderRadius="md"
-            p={4}
-            {...(data.status === 'completed' && {
-              bg: 'green',
-            })}
-          >
-            <Box flex={1}>
-              <Heading as="h3" fontSize={14}>
-                {data.title}
-              </Heading>
-              <Text as="p" fontSize={14}>
-                {data.description}
-              </Text>
-            </Box>
-            <Button>Done</Button>
-            <Button onClick={() => handleDelete(data.id)}>Delete</Button>
-          </HStack>
-        ))}
+        {taskData.map((data, i) => {
+          const isDone = data.status === 'completed';
+          return (
+            <HStack
+              key={i}
+              border="1px solid gray"
+              borderRadius="md"
+              p={4}
+              {...(isDone && {
+                bg: 'green',
+                color: 'white',
+              })}
+            >
+              <Box flex={1}>
+                <Heading as="h3" fontSize={14}>
+                  {data.title}
+                </Heading>
+                <Text as="p" fontSize={14}>
+                  {data.description}
+                </Text>
+              </Box>
+              {!isDone && (
+                <Button onClick={() => handleComplete(data.id)}>Done</Button>
+              )}
+              <Button onClick={() => handleDelete(data.id)}>Delete</Button>
+            </HStack>
+          );
+        })}
       </VStack>
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <VStack gap={2} p={4}>
